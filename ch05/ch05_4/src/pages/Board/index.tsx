@@ -1,27 +1,26 @@
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useMemo } from 'react';
 import { Title } from '../../components';
 import CreateListForm from './CreateListForm';
+import BoardList from '../BoardList';
 
-import * as LO from '../../store/listidOrders';
-import * as L from '../../store/listEntities';
+import { useLists } from '../../store/useLists';
 
 export default function Board() {
-  const dispatch = useDispatch();
+  const { lists, onRemoveList, onCreateList } = useLists();
 
-  const onCreateList = useCallback(
-    (uuid: string, title: string) => {
-      const list = { uuid, title };
-      dispatch(LO.addListidToOrders(list.uuid));
-      dispatch(L.addList(list));
-    },
-    [dispatch]
+  const children = useMemo(
+    () =>
+      lists.map(list => (
+        <BoardList key={list.uuid} list={list} onRemoveList={onRemoveList(list.uuid)} />
+      )),
+    [lists, onRemoveList]
   );
 
   return (
     <section className="mt-4">
       <Title>Board</Title>
-      <div className="mt-4">
+      <div className="flex flex-wrap p-2 mt-4">
+        {children}
         <CreateListForm onCreateList={onCreateList} />
       </div>
     </section>
