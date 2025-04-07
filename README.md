@@ -14,3 +14,6 @@ VSC 개발환경
 - tailwind css
 - headwind (tailwind 코드 재배치)
 - postcss (tailwind 경고 메시지 비활성화)
+
+- tailwindcss 별도 설치하지 말고 cra 내장으로 사용
+-
